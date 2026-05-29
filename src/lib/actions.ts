@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createServiceClient, createSupabaseClient } from "@/lib/supabase";
 import { isAdminAuthenticated } from "@/lib/auth";
@@ -11,21 +10,21 @@ import type { Item, ItemVariant, ItemWithChoice } from "@/types";
 
 /** Fetch all items with their variants and choices */
 export async function getItemsWithChoices(): Promise<ItemWithChoice[]> {
-  const { data: items, error: itemsError } = await supabase
+  const { data: items, error: itemsError } = await createSupabaseClient()
     .from("items")
     .select("*")
     .order("created_at", { ascending: false });
 
   if (itemsError) throw new Error(itemsError.message);
 
-  const { data: variants, error: variantsError } = await supabase
+  const { data: variants, error: variantsError } = await createSupabaseClient()
     .from("item_variants")
     .select("*")
     .order("sort_order", { ascending: true });
 
   if (variantsError) throw new Error(variantsError.message);
 
-  const { data: choices, error: choicesError } = await supabase
+  const { data: choices, error: choicesError } = await createSupabaseClient()
     .from("choices")
     .select("*");
 
@@ -54,7 +53,7 @@ export async function submitChoice(
   approved: boolean,
   variantId?: string | null
 ): Promise<void> {
-  const { error } = await supabase.from("choices").upsert(
+  const { error } = await createSupabaseClient().from("choices").upsert(
     {
       item_id: itemId,
       variant_id: variantId ?? null,
@@ -206,7 +205,7 @@ export async function adminDeleteImage(url: string): Promise<void> {
 
 /** Get all unique categories from items */
 export async function getCategories(): Promise<string[]> {
-  const { data } = await supabase
+  const { data } = await createSupabaseClient()
     .from("items")
     .select("category")
     .order("category");
