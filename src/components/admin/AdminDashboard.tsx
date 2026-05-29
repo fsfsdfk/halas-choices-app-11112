@@ -21,7 +21,7 @@ import type { ItemWithChoice } from "@/types";
 import { formatPrice } from "@/lib/utils";
 import { adminDeleteItem, adminGetItems } from "@/lib/actions";
 import AdminItemForm from "./AdminItemForm";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseClient } from "@/lib/supabase";
 
 interface Props {
   initialItems: ItemWithChoice[];
@@ -56,6 +56,9 @@ export default function AdminDashboard({
   const [showForm, setShowForm] = useState(false);
   const [editItem, setEditItem] = useState<ItemWithChoice | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  // Supabase client (created once on client side)
+  const supabase = useMemo(() => createSupabaseClient(), []);
 
   // Derived stats
   const approved = useMemo(
@@ -109,7 +112,7 @@ export default function AdminDashboard({
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [refreshItems]);
+  }, [refreshItems, supabase]);
 
   async function handleDelete(id: string) {
     try {
