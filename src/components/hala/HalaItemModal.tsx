@@ -147,13 +147,12 @@ export default function HalaItemModal({ item, onClose, onChoiceUpdate }: Props) 
         {/* Modal */}
         <div
           className="relative w-full sm:max-w-lg max-h-[95vh] overflow-y-auto animate-slide-up"
-          style={{
-            background: "white",
-            borderRadius: "28px 28px 0 0",
-            // @ts-expect-error - vendor prefix
-            WebkitBorderRadius: "28px 28px 0 0",
-            boxShadow: "0 -8px 60px rgba(251,113,133,0.25)",
-          }}
+style={{
+  background: "white",
+  borderRadius: "28px 28px 0 0",
+  WebkitBorderRadius: "28px 28px 0 0",
+  boxShadow: "0 -8px 60px rgba(251,113,133,0.25)",
+}}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Image carousel */}
