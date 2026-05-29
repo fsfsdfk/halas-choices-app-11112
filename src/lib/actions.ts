@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createServiceClient, supabase } from "@/lib/supabase";
+import { createServiceClient, createSupabaseClient } from "@/lib/supabase";
 import { isAdminAuthenticated } from "@/lib/auth";
 import type { Item, ItemVariant, ItemWithChoice } from "@/types";
 
